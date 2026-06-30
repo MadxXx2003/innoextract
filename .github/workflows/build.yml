@@ -47,7 +47,7 @@ jobs:
             -DCMAKE_CXX_STANDARD_REQUIRED=ON \
             -DCMAKE_CXX_EXTENSIONS=OFF \
             -DBoost_DEBUG=ON \
-            -DBoost_DETAILED_FAILURE_MSG=ON
+            -DBoost_DETAILED_FAILURE_MSG=ON \
             -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=OFF
 
       - name: Dump CMake Boost detection info
