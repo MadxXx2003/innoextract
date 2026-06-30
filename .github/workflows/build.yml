@@ -58,8 +58,25 @@ jobs:
       - name: Build
         run: |
           cmake --build build --parallel
+          
+      - name: Package runtime
+        shell: msys2 {0}
+        run: |
+            mkdir -p dist
 
+            # program
+            cp build/innoextract.exe dist/
+
+            # runtime DLLs required by MinGW builds
+            for dll in \
+              libwinpthread-1.dll \
+              libstdc++-6.dll \
+              libgcc_s_seh-1.dll \
+              libbz2-1.dll \
+              libz-1.dll; do
+                cp /mingw64/bin/$dll dist/ 2>/dev/null || true
+                
       - uses: actions/upload-artifact@v4
         with:
-          name: innoextract
-          path: build/innoextract.exe
+            name: innoextract
+            path: dist/
