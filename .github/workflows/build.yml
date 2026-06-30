@@ -29,7 +29,7 @@ jobs:
             mingw-w64-x86_64-boost
             mingw-w64-x86_64-xz
 
-      - name: Debug
+      - name: Debug toolchain
         run: |
           echo "MSYSTEM=$MSYSTEM"
           which gcc
@@ -38,11 +38,21 @@ jobs:
           which ninja
           gcc --version
           cmake --version
-          cmake --help
 
-      - name: Configure
+      - name: Configure (force C++17 + Boost debug)
         run: |
-          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_CXX_STANDARD=17 \
+            -DCMAKE_CXX_STANDARD_REQUIRED=ON \
+            -DCMAKE_CXX_EXTENSIONS=OFF \
+            -DBoost_DEBUG=ON \
+            -DBoost_DETAILED_FAILURE_MSG=ON
+
+      - name: Dump CMake Boost detection info
+        run: |
+          echo "---- CMakeCache Boost entries ----"
+          grep -i boost build/CMakeCache.txt || true
 
       - name: Build
         run: |
