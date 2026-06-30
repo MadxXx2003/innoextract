@@ -30,7 +30,7 @@
 #include <string>
 
 #include <boost/iostreams/concepts.hpp>
-#include <boost/filesystem/path.hpp>
+#include <boost/filesystem.hpp>
 
 #include "util/fstream.hpp"
 
