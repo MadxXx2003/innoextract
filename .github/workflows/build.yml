@@ -75,6 +75,7 @@ jobs:
               libbz2-1.dll \
               libz-1.dll; do
                 cp /mingw64/bin/$dll dist/ 2>/dev/null || true
+            done
                 
       - uses: actions/upload-artifact@v4
         with:
