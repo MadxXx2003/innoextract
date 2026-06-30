@@ -20,26 +20,35 @@ jobs:
         with:
           msystem: MINGW64
           update: true
-          install: >
-            git
-            make
-            cmake
-            mingw-w64-x86_64-gcc
+          path-type: inherit
+          install: >-
+            base-devel
+            mingw-w64-x86_64-toolchain
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-ninja
             mingw-w64-x86_64-boost
             mingw-w64-x86_64-xz
 
+      - name: Debug
+        run: |
+          echo "MSYSTEM=$MSYSTEM"
+          which gcc
+          which g++
+          which cmake
+          which ninja
+          gcc --version
+          cmake --version
+          cmake --help
+
       - name: Configure
         run: |
-          cmake -B build \
-            -G "MinGW Makefiles"
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 
       - name: Build
         run: |
           cmake --build build --parallel
 
-      - name: Upload executable
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: innoextract
-          path: |
-            build/**/*.exe
+          path: build/innoextract.exe
